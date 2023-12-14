@@ -2,9 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+
 package com.lelucas.telas;
 import com.lelucas.dao.Conecty;
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,7 +25,34 @@ public class TelaLogin extends javax.swing.JFrame {
         conexao = Conecty.conector();
         System.out.println ("conexao");
     }
-
+  public void logar () {
+        String sql = "select * from usuarios where nome=? and senha=?";
+           
+        try {
+           
+           ps = conexao.prepareStatement (sql);
+           ps.setString (1, txtUsuario.getText());
+           ps.setString(2,txtSenha.getText());
+           
+           rs = ps.executeQuery ();
+           
+            if (rs.next()) {
+                TelaProduto produto = new TelaProduto();
+                produto.setVisible(true);
+                
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "Dados inválidos");
+                        
+            }
+           
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null , e);
+        }
+                         
+           
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -171,7 +200,9 @@ public class TelaLogin extends javax.swing.JFrame {
     private void btnCancelaaaaaActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
     }                                              
-
+  private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        logar();
+    }  
     /**
      * @param args the command line arguments
      */
