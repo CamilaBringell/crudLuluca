@@ -3,15 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.lelucas.telas;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
 import javax.swing.JOptionPane;
+import com.lelucas.dao.ProdutoDAO;
+
 /**
  *
  * @author Camila Bringel
  */
-public class TelaProduto extends javax.swing.JFrame {   
+public class TelaProduto extends javax.swing.JFrame {  
+     private ProdutoDAO produtoDAO = new ProdutoDAO();
+     
     /**
      * Creates new form TelaProduto
      */
@@ -19,7 +23,7 @@ public class TelaProduto extends javax.swing.JFrame {
         initComponents();
 
     }
-          
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,6 +70,11 @@ public class TelaProduto extends javax.swing.JFrame {
         btnLogin.setFont(new java.awt.Font("Courier New", 2, 12)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(0, 0, 0));
         btnLogin.setText("Confirmar");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Brush Script MT", 1, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
@@ -140,6 +149,26 @@ public class TelaProduto extends javax.swing.JFrame {
     private void btnCancelaaaaaActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
     }                                              
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+         String descricao = txtDesc.getText();
+         
+          if (descricao.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira uma descrição.");
+            return;  // Não continua com a inserção se a descrição estiver vazia
+        }
+         double preco;
+
+        try {
+            preco = Double.parseDouble(txtPreco.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira um valor numérico para o preço.");
+            return;  // Não continua com a inserção se o preço não for um valor numérico
+        }
+         produtoDAO.inserir(descricao, preco);
+    }                                        
+
 
     /**
      * @param args the command line arguments
